@@ -84,7 +84,7 @@ for i = 1:length(alphas)
         set(gca,'LineWidth',3)
         set(gca, 'Box','off')
 
-        xlabel('Value of Lottery $')
+        xlabel('Outcome of Lottery $')
         ylabel('Possibility of choosing lottery')
     end
 
@@ -103,7 +103,7 @@ for i = 1:length(alphas)
     %% plot choice matrix (heatmap)
     figure('Position', [744 580 1200 420])
     h = heatmap(riskyChoicesP);
-    h.XLabel = 'Value of lottery $';
+    h.XLabel = 'Outcome of lottery $';
     h.YLabel = 'Probability of lottery %';
     h.XDisplayLabels = {'5', '6', '7', '8', '10', '12', '14', '16', '19', '23', '27', '31', '37', '44', '52', '61', '73', '86', '101', '120'};
     h.YDisplayLabels = {'25' '50' '120'};

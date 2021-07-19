@@ -9,7 +9,7 @@ fitparwave = '07132021';
 root = 'E:\Ruonan\Pathways2021\data'; % Need to change if doing analysis in different folders
 fitpar_out_path = fullfile(root,'Fitpar files', fitparwave);
 
-func_path = 'E:\Ruonan\Pathways2021\pathways_model_fitting';
+func_path = 'E:\Ruonan\Pathways2021\pathways_model_demo\pathways_model_fitting';
 addpath(func_path)
 cd(fitpar_out_path)
 
@@ -94,12 +94,14 @@ for subj_idx = 1:length(subjects)
         hold on
         
         axis([0 130 0 1])
-        set(gca, 'ytick', [0 0.25 0.5 0.75 1])
+        set(gca, 'ytick', [0 0.2 0.4 0.6 0.8 1])
         set(gca,'xtick', [0 20  40  60  80  100 120])
-        set(gca,'FontSize',25)
+        set(gca,'FontSize',15)
         set(gca,'LineWidth',3)
         set(gca, 'Box','off')
 
+        xlabel('Outcome of Lottery $')
+        ylabel('Possibility of choosing lottery')
     end
     
     for i = 1 :length(prob)
@@ -108,10 +110,12 @@ for subj_idx = 1:length(subjects)
           hold on      
     end
     
-
     
-    legend([num2str(prob(1)*100) '%'], [num2str(prob(2)*100) '%'], [num2str(prob(3)*100) '%'], 'Location','southeast')
-    title(['  alpha = ' num2str(aP)]);
+    leg = legend([num2str(prob(1)*100) '%'], [num2str(prob(2)*100) '%'], [num2str(prob(3)*100) '%'], 'Location','southeast');
+    htitle = get(leg,'Title');
+    set(htitle,'String','Probability of lottery')
+    
+    title(['Model-fitted choice curve, alpha = ' num2str(aP)]);
     
     figName=['Pathways_' num2str(subjectNum) '_choice'];
     exportfig(gcf,figName,'Format','pdf','bounds','tight','color','rgb','LockAxes',1,'FontMode','scaled','FontSize',1,'Width',4.5,'Height',3.5,'Reference',gca);
