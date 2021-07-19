@@ -2,7 +2,7 @@ clearvars
 % close all
 
 %% generate parameters
-alphas = [0.3:0.3:1.2]; % risk attitude
+alphas = [0.9]; % risk attitude
 gamma = -1.5; % noise of choice
 
 %% Problem set
@@ -48,13 +48,22 @@ for i = 1:length(alphas)
             end
         end
     end
-
-    %% plot
+    
+    
+    
+    %% plot curve
+    % blue
+%     colors =   [52 181 233;
+%         7 137 247;
+%         3 85 155;
+%         ]/255;
+    
+    % red
     colors =   [255 0 0;
         180 0 0;
         130 0 0;
         ]/255;
-
+    
     xP = 0:0.1:max(values); % x axis
     uFP = 1 * 5.^alpha; %SV of the safe choice
 
@@ -69,21 +78,41 @@ for i = 1:length(alphas)
         hold on
 
         axis([0 130 0 1])
-        set(gca, 'ytick', [0 0.25 0.5 0.75 1])
+        set(gca, 'ytick', [0 0.2 0.4 0.6 0.8 1])
         set(gca,'xtick', [0 20  40  60  80  100 120])
-        set(gca,'FontSize',25)
+        set(gca,'FontSize',15)
         set(gca,'LineWidth',3)
         set(gca, 'Box','off')
 
+        xlabel('Value of Lottery $')
+        ylabel('Possibility of choosing lottery')
     end
 
-    for i = 1 :length(prob)
-        plot(unique(values),riskyChoicesP(i,:),'o','MarkerSize',8,'MarkerEdgeColor',colors([1 1 1])...
-            ,'MarkerFaceColor',colors(i,:),'Color',colors(i,:));
-          hold on      
-    end
+%     for i = 1 :length(prob)
+%         plot(unique(values),riskyChoicesP(i,:),'o','MarkerSize',8,'MarkerEdgeColor',colors([1 1 1])...
+%             ,'MarkerFaceColor',colors(i,:),'Color',colors(i,:));
+%           hold on      
+%     end
 
-    legend([num2str(prob(1)*100) '%'], [num2str(prob(2)*100) '%'], [num2str(prob(3)*100) '%'], 'Location','southeast')
+    leg = legend([num2str(prob(1)*100) '%'], [num2str(prob(2)*100) '%'], [num2str(prob(3)*100) '%'], 'Location','southeast');
+    htitle = get(leg,'Title');
+    set(htitle,'String','Probability of lottery')
 
-    title(['  alpha = ' num2str(alpha)]);
+    title(['Simulated choice curve, alpha = ' num2str(alpha)]);
+    
+    %% plot choice matrix (heatmap)
+    figure('Position', [744 580 1200 420])
+    h = heatmap(riskyChoicesP);
+    h.XLabel = 'Value of lottery $';
+    h.YLabel = 'Probability of lottery %';
+    h.XDisplayLabels = {'5', '6', '7', '8', '10', '12', '14', '16', '19', '23', '27', '31', '37', '44', '52', '61', '73', '86', '101', '120'};
+    h.YDisplayLabels = {'25' '50' '120'};
+    h.Title = ['Simulated choice in each unique trial, alpha = ', num2str(alpha)];
+    
+    axs = struct(gca); %ignore warning that this should be avoided
+    cb = axs.Colorbar;
+    cb.Ticks=[0,1];
+    cb.TickLabels = {'0 - Choose $5','1 - Choose Lottery'};
+    
+    
 end
